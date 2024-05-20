@@ -1,0 +1,35 @@
+.payment {
+    display: grid;
+    place-items: center;
+    background-color: #fff;
+    margin: 2vmax;
+    height: 65vh;
+}
+
+.paymentBtn {
+    border: none;
+    background-color: #ff6347;
+    color: #fff;
+    font: 300 2vmax 'Roboto';
+    width: 20%;
+    padding: 0.9vmax;
+    cursor: pointer;
+    transition: all .2s;
+    border-radius: 1vh;
+}
+
+.paymentBtn:hover {
+    background-color: #b4422e;
+}
+
+@media screen and (max-width:600px) {
+    .payment {
+        width: 90%;
+    }
+
+    .paymentBtn {
+        font: 300 4vw 'Roboto';
+        width: 60%;
+        padding: 4vw;
+    }
+}
