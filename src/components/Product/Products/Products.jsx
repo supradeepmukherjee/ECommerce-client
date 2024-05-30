@@ -31,7 +31,7 @@ const Products = () => {
             getProducts({ keyword, currentPg, price, category: categoryOption, rating })
                 .then(({ data }) => {
                     setProducts(data.products)
-                    setProductsCount(data.productsCount)
+                    setProductsCount(data.productCount)
                     setResultPerPg(data.resultPerPg)
                 })
                 .catch(err => console.log(err))
