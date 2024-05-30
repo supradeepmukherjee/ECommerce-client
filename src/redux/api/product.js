@@ -13,7 +13,7 @@ const api = createApi({
                 body: product, //file
                 credentials: 'include'
             }),
-            invalidatesTags: ['order', 'admin-order']
+            invalidatesTags: ['product', 'admin-product']
         }),
         delProduct: mutation({
             query: id => ({
