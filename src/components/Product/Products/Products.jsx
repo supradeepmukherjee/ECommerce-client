@@ -17,7 +17,6 @@ const Products = () => {
     const [rating, setRating] = useState(0)
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false)
-    const [filteredProductsCount, setFilteredProductsCount] = useState(0)
     const [productsCount, setProductsCount] = useState(0)
     const [resultPerPg, setResultPerPg] = useState(0)
     const setCurrentPage = e => setCurrentPg(e)
@@ -32,7 +31,6 @@ const Products = () => {
             getProducts({ keyword, currentPg, price, category: categoryOption, rating })
                 .then(({ data }) => {
                     setProducts(data.products)
-                    setFilteredProductsCount(data.filteredProductsCount)
                     setProductsCount(data.productsCount)
                     setResultPerPg(data.resultPerPg)
                 })
@@ -52,7 +50,7 @@ const Products = () => {
                     <div className="products">
                         {products?.map(({ _id, name, description, price, rating, images, numOfReviews }) => <Product key={_id} id={_id} name={name} desc={description} price={price} rating={rating} imgs={images} reviews={numOfReviews} />)
                         }
-                        {!filteredProductsCount && <Typography>
+                        {!productsCount && <Typography>
                             No Products to show
                         </Typography>}
                     </div>
@@ -90,7 +88,7 @@ const Products = () => {
                                 valueLabelDisplay='auto' />
                         </fieldset>
                     </div>
-                    {resultPerPg <= filteredProductsCount && <div className="paginationBox">
+                    {resultPerPg <= productsCount && <div className="paginationBox">
                         <Pagination
                             activePage={currentPg}
                             itemsCountPerPage={resultPerPg}
