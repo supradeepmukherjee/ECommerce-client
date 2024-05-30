@@ -32,13 +32,14 @@ const Products = () => {
                 .then(({ data }) => {
                     setProducts(data.products)
                     setProductsCount(data.productCount)
-                    setResultPerPg(data.resultPerPg)
+                    setResultPerPg(data.resultPerPage)
                 })
                 .catch(err => console.log(err))
                 .finally(setLoading(false))
         }, 1200);
         return () => clearTimeout(wait)
     }, [categoryOption, currentPg, getProducts, keyword, price, rating])
+    console.log(productsCount, resultPerPg)
     return (
         <>
             {loading ? <Loader /> : <>
