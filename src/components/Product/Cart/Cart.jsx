@@ -38,7 +38,7 @@ const Cart = () => {
   })
   const dec = async (id, qty) => {
     const newQty = qty - 1
-    await addToCart('Decreasing Quantity', { id, newQty })
+    await addToCart('Decreasing Quantity', { id, qty: newQty })
     getUser()
       .then(({ data }) => dispatch(userExists(data.user)))
       .catch(() => dispatch(userNotExists()))
@@ -47,7 +47,7 @@ const Cart = () => {
     const newQty = qty + 1
     if (stock <= qty) return toast.error('Maximum Stock Quantity reached')
     toast.dismiss()
-    await addToCart('Increasing Quantity', { id, newQty })
+    await addToCart('Increasing Quantity', { id, qty: newQty })
     getUser()
       .then(({ data }) => dispatch(userExists(data.user)))
       .catch(() => dispatch(userNotExists()))
