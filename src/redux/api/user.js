@@ -4,28 +4,24 @@ import server from '../../constant'
 const api = createApi({
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({ baseUrl: `${server}/user` }),
-    tagTypes: ['user', 'admin-user'],
     endpoints: ({ mutation, query }) => ({
         getUser: query({
             query: () => ({
                 url: '/me',
                 credentials: 'include'
             }),
-            providesTags: ['user']
         }),
         allUsers: query({
             query: () => ({
                 url: '/admin/users',
                 credentials: 'include'
             }),
-            providesTags: ['admin-user']
         }),
         getUserProfile: query({
             query: id => ({
                 url: `/admin/user/${id}`,
                 credentials: 'include'
             }),
-            providesTags: ['admin-user']
         }),
         updateProfile: mutation({
             query: data => ({
@@ -34,7 +30,6 @@ const api = createApi({
                 body: data,
                 credentials: 'include'
             }),
-            invalidatesTags: ['admin-user', 'user']
         }),
         updateRole: mutation({
             query: ({ id, role }) => ({
@@ -43,7 +38,6 @@ const api = createApi({
                 body: { role },
                 credentials: 'include'
             }),
-            invalidatesTags: ['admin-user', 'user']
         }),
         changePassword: mutation({
             query: ({ old, newP, cPass }) => ({
@@ -52,7 +46,6 @@ const api = createApi({
                 body: { old, newP, cPass },
                 credentials: 'include'
             }),
-            invalidatesTags: ['user']
         }),
         forgotPassword: mutation({
             query: email => ({
@@ -75,7 +68,6 @@ const api = createApi({
                 url: `/getship`,
                 credentials: 'include'
             }),
-            providesTags: ['user']
         }),
         updateShip: mutation({
             query: ({ address, city, state, country, pincode, phone }) => ({
@@ -84,7 +76,6 @@ const api = createApi({
                 body: { address, city, state, country, pincode, phone },
                 credentials: 'include'
             }),
-            invalidatesTags: ['user']
         }),
     })
 })
