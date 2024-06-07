@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import useErrors from '../../../hooks/useErrors'
 import { useGetItemsQuery } from '../../../redux/api/cart'
-import { useGetShipInfoQuery } from '../../../redux/api/user'
 import Loader from '../../Loader/Loader'
 import MetaData from '../../MetaData'
 import CheckoutSteps from '../CheckoutSteps'
@@ -18,7 +17,7 @@ const ConfirmOrder = () => {
     const navigate = useNavigate()
     const { user } = useSelector(({ auth }) => auth)
     const itemsQty = useSelector(({ auth }) => auth.user.cartItems)
-    const [shipInfo, setShipInfo] = useState({})
+    const { address, city, country, phone, pincode, state } = useSelector(({ ship }) => ship)
     const [cartItems, setCartItems] = useState([])
     let gTotal = 0
     cartItems?.map(item => {
@@ -31,20 +30,15 @@ const ConfirmOrder = () => {
     })
     const shippingCharges = gTotal > 499 ? 0 : 100
     const tax = gTotal * .18
-    const total = gTotal + tax + shippingCharges
-    const { isLoading, data, error, isError } = useGetShipInfoQuery()
-    const { data: itemsData, isLoading: itemsLoading, error: itemsError, isError: itemsIsError } = useGetItemsQuery()
-    useErrors([
-        { error, isError },
-        { error: itemsError, isError: itemsIsError },
-    ])
+    const total = Math.round(gTotal + tax + shippingCharges)
+    const { data, isLoading, error, isError } = useGetItemsQuery()
+    useErrors([{ error, isError }])
     useEffect(() => {
-        if (data) setShipInfo(data.shipInfo)
-        if (itemsData) setCartItems(itemsData.items)
-    }, [data, itemsData])
+        if (data) setCartItems(data.items)
+    }, [data])
     return (
         <>
-            {isLoading || itemsLoading ?
+            {isLoading ?
                 <Loader /> : <>
                     <MetaData title={`CONFIRM ORDER`} />
                     <div className="steps">
@@ -70,7 +64,7 @@ const ConfirmOrder = () => {
                                             Phone:
                                         </p>
                                         <span>
-                                            {shipInfo && shipInfo.phone}
+                                            {phone}
                                         </span>
                                     </div>
                                     <div className="">
@@ -78,7 +72,7 @@ const ConfirmOrder = () => {
                                             Address:
                                         </p>
                                         <span>
-                                            {shipInfo && `${shipInfo.address}, ${shipInfo.city}, ${shipInfo.pincode}, ${State.getStateByCode(shipInfo.state)?.name}, ${Country.getCountryByCode(shipInfo.country)?.name}`}
+                                            {address}, {city}, {pincode}, {State.getStateByCode(state)?.name}, {Country.getCountryByCode(country)?.name}
                                         </span>
                                     </div>
                                 </div>
@@ -88,7 +82,7 @@ const ConfirmOrder = () => {
                                     Your Cart Items:
                                 </Typography>
                                 <div className="confirmCartItemsContainer">
-                                    {cartItems && cartItems.map(item => {
+                                    {cartItems?.map(item => {
                                         let value, sTotal
                                         for (let i = 0; i < itemsQty.length; i++) {
                                             if (item._id === itemsQty[i].item) value = itemsQty[i].qty

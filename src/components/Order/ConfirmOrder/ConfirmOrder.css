@@ -30,6 +30,7 @@
 .confirmShippingAreaBox>div>p {
     font: 400 1.2vmax 'Roboto';
     color: #000;
+    margin: 1.2vmax;
 }
 
 .confirmShippingAreaBox>div>span {

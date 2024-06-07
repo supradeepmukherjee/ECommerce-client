@@ -4,6 +4,7 @@ import order from './api/order';
 import product from './api/product';
 import user from './api/user';
 import authSlice from './reducers/auth';
+import shipSlice from './reducers/ship';
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         [product.reducerPath]: product.reducer,
         [user.reducerPath]: user.reducer,
         [authSlice.name]: authSlice.reducer,
+        [shipSlice.name]: shipSlice.reducer,
     },
     middleware: d => d().concat([
         user.middleware,

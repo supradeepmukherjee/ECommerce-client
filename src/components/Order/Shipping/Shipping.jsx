@@ -15,12 +15,15 @@ import MetaData from '../../MetaData'
 import CheckoutSteps from '../CheckoutSteps'
 import toast from 'react-hot-toast'
 import './Shipping.css'
+import { useDispatch } from 'react-redux'
+import { updateShipInfo } from '../../../redux/reducers/ship'
 
 const Shipping = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
@@ -33,6 +36,7 @@ const Shipping = () => {
     if (phone.length < 10 || phone.length > 10) return toast.error('Phone No. must be of 10 digits')
     if (pincode.length < 6 || pincode.length > 6) return toast.error('Pincode must be of 6 digits')
     toast.dismiss()
+    dispatch(updateShipInfo({ address, city, country, phone, pincode, state }))
     await updateShip('Updating Address...', { address, city, state, country, pincode, phone })
     navigate('/confirmorder')
   }
